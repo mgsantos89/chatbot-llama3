@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Llama3.2 via Ollama</title>
+    <script>
+        async function sendMessage() {
+            const userMessage = document.getElementById("user-input").value;
+            document.getElementById("chat").innerHTML += `<p><strong>Você:</strong> ${userMessage}</p>`;
+            
+            const response = await fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userMessage })
+            });
+
+            const data = await response.json();
+            document.getElementById("chat").innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+            document.getElementById("user-input").value = "";
+        }
+    </script>
+</head>
+<body>
+    <h1>Chatbot Llama3.2 via Ollama</h1>
+    <div id="chat"></div>
+    <input type="text" id="user-input" placeholder="Digite sua mensagem">
+    <button onclick="sendMessage()">Enviar</button>
+</body>
+</html>
